@@ -6,7 +6,7 @@ const Todo = ({ text }) => {
   return (
     <List>
       <ListItem>
-        <ListItemText primary="Todo" secondary={text} />
+        <ListItemText primary={text} secondary=" ⏰ Dummy deadline" />
       </ListItem>
     </List>
   );
