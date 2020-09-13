@@ -4,6 +4,7 @@ import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import "./App.css";
 import Todo from "./components/Todo";
 import db from "./configs/firebase";
+import firebase from "firebase";
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -19,6 +20,7 @@ function App() {
     e.preventDefault();
     db.collection("todos").add({
       todo: input,
+      times: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setInput("");
   };
