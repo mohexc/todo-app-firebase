@@ -6,20 +6,20 @@ import Todo from "./components/Todo";
 import db from "./configs/firebase";
 
 function App() {
-  const [todos, setTodos] = useState(["Take dos for awalk", "Take the rubish out", "qazi wants to livestream today"]);
+  const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    db.collection("todos").onSnapshot((snapshot) => {
-      const result = snapshot.docs.map((doc) => doc.data());
-      console.log();
+    db.collection("todos").onSnapshot((snap) => {
+      setTodos(snap.docs.map((doc) => doc.data().todo));
     });
   }, []);
 
   const addTodo = (e) => {
     e.preventDefault();
-    console.log(`👾`, 'i"m working ');
-    setTodos([...todos, input]);
+    db.collection("todos").add({
+      todo: input,
+    });
     setInput("");
   };
 
