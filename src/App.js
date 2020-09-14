@@ -11,16 +11,24 @@ function App() {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    db.collection("todos").onSnapshot((snap) => {
-      setTodos(snap.docs.map((doc) => doc.data().todo));
-    });
+    db.collection("todos")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snap) => {
+        setTodos(snap.docs.map((doc) => {
+          return {
+            id: doc.id,
+            ...doc.data()
+
+          }
+        }));
+      });
   }, []);
 
   const addTodo = (e) => {
     e.preventDefault();
     db.collection("todos").add({
       todo: input,
-      times: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setInput("");
   };
@@ -50,7 +58,7 @@ function App() {
       </Button>
       <ul>
         {todos.map((todo) => (
-          <Todo key={uuidv4()} text={todo} />
+          <Todo key={uuidv4()} data={todo} />
         ))}
       </ul>
     </div>
