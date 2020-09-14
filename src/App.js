@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import "./App.css";
 import Todo from "./components/Todo";
 import db from "./configs/firebase";
 import firebase from "firebase";
+import EditModal from "./components/EditModal";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
+  const editModalRef = useRef()
 
   useEffect(() => {
     db.collection("todos")
@@ -57,10 +59,11 @@ function App() {
         Add todo
       </Button>
       <ul>
-        {todos.map((todo) => (
-          <Todo key={uuidv4()} data={todo} />
+        {todos.map((record) => (
+          <Todo key={record.id} data={record} openModal={editModalRef} />
         ))}
       </ul>
+      <EditModal ref={editModalRef} />
     </div>
   );
 }
