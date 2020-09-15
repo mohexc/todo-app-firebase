@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import "./App.css";
 import Todo from "./components/Todo";
@@ -10,7 +9,7 @@ import EditModal from "./components/EditModal";
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-  const editModalRef = useRef()
+
 
   useEffect(() => {
     db.collection("todos")
@@ -60,10 +59,10 @@ function App() {
       </Button>
       <ul>
         {todos.map((record) => (
-          <Todo key={record.id} data={record} openModal={editModalRef} />
+          <Todo key={record.id} data={record} />
         ))}
       </ul>
-      <EditModal ref={editModalRef} />
+
     </div>
   );
 }
